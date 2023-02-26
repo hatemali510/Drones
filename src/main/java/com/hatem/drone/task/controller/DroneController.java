@@ -27,10 +27,9 @@ public class DroneController {
         return ResponseEntity.status(HttpStatus.OK).body(droneDispatcher.register(drone));
     }
 
-    @GetMapping("/load-items/{droneId}")
+    @PostMapping("/load-items/{droneId}")
     public ResponseEntity loadDroneItems(@PathVariable String droneId, @RequestBody List<Medication> medicationList){
-        droneDispatcher.loadItems(droneId,medicationList);
-        return ResponseEntity.status(HttpStatus.OK).body("drone is loaded successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(droneDispatcher.loadItems(droneId,medicationList));
     }
     @GetMapping("/get-available-drone")
     public ResponseEntity getAvailableDrones(){

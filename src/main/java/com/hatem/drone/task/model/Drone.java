@@ -5,7 +5,6 @@ import com.hatem.drone.task.enums.State;
 
 import lombok.Data;
 
-import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -16,8 +15,6 @@ public class Drone implements Serializable {
     @Size( max = 100, message = "${validation.drone.serial.size.message}")
     private String serialNumber;
     private Model model;
-    @DecimalMax(value = "500.0",message = "${validation.drone.weight.limit.message}")
-    private Double weightLimit;
     private Double batteryCapacity;
     private State state;
 }
