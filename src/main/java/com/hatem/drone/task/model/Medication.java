@@ -1,8 +1,8 @@
 package com.hatem.drone.task.model;
 
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 

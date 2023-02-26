@@ -2,10 +2,11 @@ package com.hatem.drone.task.model;
 
 import com.hatem.drone.task.enums.Model;
 import com.hatem.drone.task.enums.State;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.Size;
+
 import lombok.Data;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 
