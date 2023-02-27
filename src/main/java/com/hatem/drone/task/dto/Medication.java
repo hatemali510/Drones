@@ -1,4 +1,4 @@
-package com.hatem.drone.task.model;
+package com.hatem.drone.task.dto;
 
 import lombok.Data;
 
@@ -10,11 +10,11 @@ import java.io.Serializable;
 public class Medication implements Serializable {
 
 
-    @Pattern(regexp = "^[a-zA-Z0-9-_]+$",message = "${validation.medication.name.message}")
+    @Pattern(regexp = "^[a-zA-Z0-9-_]+$",message = "allowed only letters, numbers, ‘-‘, ‘_’")
     private String name;
     private Double weight;
 
-    @Pattern(regexp = "^[A-Z0-9_]+$",message = "${validation.medication.code.message}")
+    @Pattern(regexp = "^[A-Z0-9_]+$",message = "allowed only upper case letters, underscore and numbers")
     private String code;
     private String image;
 

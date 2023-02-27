@@ -1,4 +1,4 @@
-package com.hatem.drone.task.model;
+package com.hatem.drone.task.dto;
 
 
 import lombok.Data;

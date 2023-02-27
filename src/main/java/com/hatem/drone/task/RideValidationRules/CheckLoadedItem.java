@@ -1,8 +1,8 @@
 package com.hatem.drone.task.RideValidationRules;
 
-import com.hatem.drone.task.model.DroneRideRequest;
-import com.hatem.drone.task.model.Medication;
-import com.hatem.drone.task.model.RuleResult;
+import com.hatem.drone.task.dto.DroneRideRequest;
+import com.hatem.drone.task.dto.Medication;
+import com.hatem.drone.task.dto.RuleResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

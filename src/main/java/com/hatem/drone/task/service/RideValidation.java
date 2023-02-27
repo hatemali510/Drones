@@ -2,6 +2,9 @@ package com.hatem.drone.task.service;
 
 
 import com.hatem.drone.task.RideValidationRules.ValidationRuleRunner;
+import com.hatem.drone.task.dto.DroneRideRequest;
+import com.hatem.drone.task.dto.LoadItemRequest;
+import com.hatem.drone.task.dto.RuleResult;
 import com.hatem.drone.task.enums.State;
 import com.hatem.drone.task.model.*;
 import com.hatem.drone.task.repository.DroneRepo;
@@ -78,7 +81,7 @@ public class RideValidation {
     - this second check to prevent the concurrency issues
      */
 
-    public boolean checkDroneState(String id) {
+    public boolean isAvailableDrone(String id) {
         Optional<Drone> optionalDrone=droneRepo.findById(id);
         if (optionalDrone.isPresent()){
             Drone drone=optionalDrone.get();

@@ -1,5 +1,6 @@
-package com.hatem.drone.task.model;
+package com.hatem.drone.task.dto;
 
+import com.hatem.drone.task.model.Drone;
 import lombok.Data;
 
 import java.util.List;

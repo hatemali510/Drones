@@ -1,9 +1,13 @@
 package com.hatem.drone.task.service;
 
+import com.hatem.drone.task.dto.DroneDto;
+import com.hatem.drone.task.dto.DroneRideRequest;
+import com.hatem.drone.task.dto.LoadItemRequest;
+import com.hatem.drone.task.dto.Medication;
 import com.hatem.drone.task.enums.State;
 import com.hatem.drone.task.model.*;
 import com.hatem.drone.task.repository.DroneRepo;
-import com.hatem.drone.task.repository.DroneRideRepo;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,31 +28,43 @@ public class DroneDispatcher {
 
 
 
+    public static final String DRONE_NOT_AVAILABLE_RULE="NOT_AVAILABLE";
+    public static final String DRONE_NOT_AVAILABLE_MESSAGE="drone is not available now";
+
     public static final String BATTERY_RULE_NAME= "BATTERY_RULE";
     public static final String BATTERY_RULE_FAILED_MESSAGE= "drone can't fly , battery percentage is less than the minimum value .";
 
-    public ResponseEntity<Drone> register(Drone drone){
+    public ResponseEntity<Drone> register(DroneDto droneDto){
+        ModelMapper modelMapper=new ModelMapper();
+        Drone drone=modelMapper.map(droneDto,Drone.class);
         return ResponseEntity.ok(droneRepo.save(drone));
     }
 
     public LoadItemRequest loadItems(String droneId, List<Medication> medicationList){
-        LoadItemRequest loadItemRequest=new LoadItemRequest();
+        LoadItemRequest loadItemRequest;
         Optional<Drone> optionalDrone=droneRepo.findById(droneId);
         DroneRideRequest droneRideRequest = new DroneRideRequest(optionalDrone, medicationList);
-        if (rideValidation.checkDroneState(optionalDrone.get().getId())&&rideValidation.checkDroneBattery(optionalDrone)) {
+        if (!rideValidation.isAvailableDrone(optionalDrone.get().getId())){
+            return prepareLoadItemRequestResponse(false,DRONE_NOT_AVAILABLE_RULE,DRONE_NOT_AVAILABLE_MESSAGE);
+        }
+        if (rideValidation.checkDroneBattery(optionalDrone)) {
             loadItemRequest =rideValidation.validateRide(droneRideRequest);
             if (Boolean.FALSE.equals(loadItemRequest.getRideRequestStatus())) {
                 return loadItemRequest;
             }
         }else {
-            loadItemRequest.setRideRequestStatus(false);
-            loadItemRequest.setFailedRule(BATTERY_RULE_NAME);
-            loadItemRequest.setFailedRuleMessage(BATTERY_RULE_FAILED_MESSAGE);
+            loadItemRequest=prepareLoadItemRequestResponse(false,BATTERY_RULE_NAME,BATTERY_RULE_FAILED_MESSAGE);
         }
         return loadItemRequest;
     }
 
-
+    private LoadItemRequest prepareLoadItemRequestResponse(Boolean rideStatus,String failedReason,String failedMessage){
+        LoadItemRequest loadItemRequest=new LoadItemRequest();
+        loadItemRequest.setRideRequestStatus(rideStatus);
+        loadItemRequest.setFailedRule(failedReason);
+        loadItemRequest.setFailedRuleMessage(failedMessage);
+        return loadItemRequest;
+    }
 
     /*
     - load all the available drones with status IDLE which ready for the loading process
@@ -56,5 +72,9 @@ public class DroneDispatcher {
      */
     public List<Drone> getAvailableDrones(){
         return droneRepo.findByState(State.IDLE.name());
+    }
+
+    public List<Drone> getAllDrones(){
+        return droneRepo.findAll();
     }
 }
