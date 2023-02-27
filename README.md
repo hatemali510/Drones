@@ -49,6 +49,7 @@ will apply these rules on the DroneRideRequest
   * future enhancement to add json file with each rule to have the rule validation value and the period to run within it (( for offers and other business requirements)) like : 
     * { "rulename" : "checkLoadedItem" , validationValue: 500 , valid:{ from : "dateTime",to : "datetime"},errorCode:5100,errorMessage:"rule not passed "}
 
+
 # project APIs documentation : 
 * the project have one controller to manage the drones activity
 * first API : /api/drone/register to register the drone in the system 
